@@ -123,20 +123,27 @@ void Map::createRoom(bool first, int x1, int y1, int x2, int y2) {
 
 void Map::addMonster(int x, int y) {
   TCODRandom *rng = TCODRandom::getInstance();
-  if(rng->getInt(0, 100) <= 90) {
+  if(rng->getInt(0, 100) <= 60) {
     // Pune un paznic
     Actor *paznic = new Actor(x, y, 'p', "paznic", TCODColor::azure);
     paznic->destructible = new MonsterDestructible(10, 0, "paznic lesinat");
     paznic->attacker = new Attacker(3);
     paznic->ai = new MonsterAi();
     engine.actors.push(paznic);
-  } else {
+  } else if(rng->getInt(0, 100) > 60 && rng->getInt(0, 100) <= 95) {
     // Pune pe doamna directoare
     Actor *director = new Actor(x, y, 'D', "directoare", TCODColor::crimson);
     director->destructible = new MonsterDestructible(16, 1, "directoare lesinata");
     director->attacker = new Attacker(4);
     director->ai = new MonsterAi();
     engine.actors.push(director);
+  } else if(rng->getInt(0, 100) > 95) {
+    // Pune un floricel
+    Actor *floricel = new Actor(x, y, 'F', "floricel", TCODColor::chartreuse);
+    floricel->destructible = new MonsterDestructible(50, 2, "floricel ofilit");
+    floricel->attacker = new Attacker(5);
+    floricel->ai = new MonsterAi();
+    engine.actors.push(floricel);
   }
 }
 
@@ -160,11 +167,24 @@ void Map::render() const {
 }
 
 void Map::addItem(int x, int y) {
-  Actor *healthPotion = new Actor(x, y, '!', "paracetamol", TCODColor::violet);
-  healthPotion->blocks = false;
-  healthPotion->pickable = new Healer(5);
-  engine.actors.push(healthPotion);
-  engine.sendToBack(healthPotion);
+  TCODRandom *rng = TCODRandom::getInstance();
+  int rnd = rng->getInt(0, 100);
+  if(rnd < 70) {
+    Actor *healthPotion = new Actor(x, y, '!', "bautura energizanta", TCODColor::violet);
+    healthPotion->blocks = false;
+    healthPotion->pickable = new Healer(4);
+    engine.sendToBack(healthPotion);
+  } else if(rnd < 70 + 20) {
+    Actor *scrollOfFireball = new Actor(x, y, '#', "foaie intitulata \"cum sa faci focul\"", TCODColor::lightOrange);
+    scrollOfFireball->blocks = false;
+    scrollOfFireball->pickable = new Fireball(3, 12);
+    engine.sendToBack(scrollOfFireball);
+  } else {
+    Actor *scrollOfLightingBolt = new Actor(x, y, '#', "foaie intitulata \"cum sa faci o bobina tesla\"", TCODColor::lightYellow);
+    scrollOfLightingBolt->blocks = false;
+    scrollOfLightingBolt->pickable = new LightingBolt(5, 20);
+    engine.sendToBack(scrollOfLightingBolt);
+  }
 }
 
 Tile* Map::tileAt(int x, int y) const{

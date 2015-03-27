@@ -11,3 +11,17 @@ public:
   Healer(float amount);
   bool use(Actor *owner, Actor *wearer);
 };
+
+class LightingBolt : public Pickable {
+public:
+  float range, damage;
+  LightingBolt(float range, float damage);
+  
+  bool use(Actor *owner, Actor *wearer);
+};
+
+class Fireball : public LightingBolt {
+public:
+  Fireball(float range, float damage);
+  bool use(Actor *owner, Actor *wearer);
+};

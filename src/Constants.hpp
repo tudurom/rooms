@@ -1,5 +1,5 @@
 #include "libtcod.hpp"
-#define RELEASE 0
+#define RELEASE 1
 
 // Window
 #define ROOT_WINDOW_WIDTH 80

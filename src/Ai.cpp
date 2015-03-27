@@ -98,7 +98,7 @@ Actor* PlayerAi::chooseFromInventory(Actor *owner) {
     shortcut++;
   }
   TCODConsole::blit(&con, 0, 0, INVENTORY_WIDTH, INVENTORY_HEIGHT, 
-                    TCODConsole::root, ROOT_WINDOW_WIDTH / 2, (ROOT_WINDOW_HEIGHT - INVENTORY_WIDTH) / 2,
+                    TCODConsole::root, (ROOT_WINDOW_WIDTH - INVENTORY_WIDTH) / 2,
                     (ROOT_WINDOW_HEIGHT - INVENTORY_HEIGHT) / 2);
   TCODConsole::flush();
   
